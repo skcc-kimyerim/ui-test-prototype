@@ -22,9 +22,7 @@ import {
   ChevronDown,
   ChevronRight,
   AlertTriangle,
-  Code,
-  Copy,
-  Info,
+  ChevronUp,
 } from "lucide-react"
 
 interface ExecutionHistory {
@@ -48,9 +46,9 @@ const mockScenario = {
   id: "REQ-BL-00001_TS_001",
   title: "정상 창업 지원프로세스 처리",
   description:
-    "사용자 창업 지원 신청 접수부터 승인까지의 전체 프로세스를 검증합니다. 3단계 검증 과정을 거쳐 최종 승인까지의 워크플로우를 테스트합니다.",
+    "사용자 업 지원 신청 접수부터 승인까지의 전체 프로세스를 검증합니다. 3단계 검증 과정을 거쳐 최종 승인까지의 워크플로우를 테스트합니다.",
   category: "창업지원",
-  status: "completed",
+  status: "success",
   lastRun: "2023-08-29 14:17",
   duration: "0.2h",
   successRate: 93.3,
@@ -141,68 +139,117 @@ const mockExecutionHistory: ExecutionHistory[] = [
 ]
 
 const mockScenarioList = [
-  { id: "REQ-BL-00001_TS_001", title: "정상 창업 지원프로세스 처리", status: "completed" },
-  { id: "REQ-BL-00002_TS_002", title: "창업 지원 신청 반려 처리", status: "failed" },
-  { id: "REQ-BL-00003_TS_003", title: "사업자 등록 검증 프로세스", status: "running" },
-  { id: "REQ-BL-00004_TS_004", title: "지원금 지급 프로세스", status: "pending" },
-]
-
-const mockExecutionSteps = [
   {
-    id: "step-1",
-    stepName: "페이지 로드",
-    description: "메인 페이지 접속 및 로딩",
-    duration: "1.2s",
+    id: "REQ-BL-00001_TS_001",
+    title: "정상 창업 지원프로세스 처리",
     status: "success",
-    timestamp: "14:17:32",
-    screenshotSaved: true,
-    consoleLogs: [
-      { level: "info", message: "페이지 로드 시작", timestamp: "14:17:32.123" },
-      { level: "info", message: "DOM 요소 로딩 완료", timestamp: "14:17:32.456" },
-      { level: "info", message: "스크린샷 저장됨", timestamp: "14:17:32.789" },
-      { level: "info", message: "페이지 로드 완료", timestamp: "14:17:33.345" },
-    ],
+    category: "창업지원",
+    lastRun: "2023-08-29 14:17",
+    duration: "0.2h",
+    successRate: 93.3,
+    totalRuns: 15,
+    author: "김철수",
+    createdAt: "2023-08-01",
+    requirementId: "REQ-BL-00001",
+    requirementName: "창업 지원 프로세스 관리",
+    description:
+      "사용자 창업 지원 신청 접수부터 승인까지의 전체 프로세스를 검증합니다. 3단계 검증 과정을 거쳐 최종 승인까지의 워크플로우를 테스트합니다.",
+    detailContent:
+      "창업 지원 신청부터 승인까지의 전체 프로세스를 자동화하여 처리하는 시스템입니다. 신청자의 정보 입력, 서류 검토, 승인 절차를 포함합니다.",
+    precondition:
+      "1. 시스템에 로그인된 상태여야 함\n2. 창업 지원 메뉴에 접근 권한이 있어야 함\n3. 필수 서류가 준비되어 있어야 함",
+    testData:
+      "사용자ID: test_user01\n비밀번호: test123!\n사업자등록번호: 123-45-67890\n대표자명: 홍길동\n사업장주소: 서울시 강남구 테헤란로 123",
+    expectedResult:
+      "1. 로그인 성공 후 메인 화면 이동\n2. 창업 지원 메뉴 정상 접근\n3. 신청서 작성 완료\n4. 제출 후 접수 완료 메시지 표시\n5. 신청 내역 조회 가능",
+    tags: ["회귀테스트", "스모크테스트", "자동화"],
   },
   {
-    id: "step-2",
-    stepName: "로그인 폼 입력",
-    description: "사용자 정보 입력 및 검증",
-    duration: "0.8s",
-    status: "success",
-    timestamp: "14:17:34",
-    screenshotSaved: true,
-    consoleLogs: [
-      { level: "info", message: "입력 필드 포커스", timestamp: "14:17:34.123" },
-      { level: "info", message: "이메일 입력: test@example.com", timestamp: "14:17:34.234" },
-      { level: "info", message: "비밀번호 입력 완료", timestamp: "14:17:34.345" },
-      { level: "info", message: "폼 유효성 검사 통과", timestamp: "14:17:34.456" },
-      { level: "info", message: "스크린샷 저장됨", timestamp: "14:17:34.567" },
-    ],
+    id: "REQ-BL-00002_TS_002",
+    title: "창업 지원 신청 반려 처리",
+    status: "failed",
+    category: "창업지원",
+    lastRun: "2023-08-28 16:30",
+    duration: "0.15h",
+    successRate: 87.5,
+    totalRuns: 8,
+    author: "이영희",
+    createdAt: "2023-08-02",
+    requirementId: "REQ-BL-00002",
+    requirementName: "창업 지원 신청 반려 프로세스",
+    description:
+      "창업 지원 신청이 반려되는 경우의 처리 프로세스를 검증합니다. 반려 사유 안내 및 재신청 가능 여부를 확인합니다.",
+    detailContent:
+      "신청서 검토 과정에서 요건 미충족 시 반려 처리하는 시스템입니다. 반려 사유를 명확히 안내하고 재신청 절차를 제공합니다.",
+    precondition: "1. 창업 지원 신청이 접수된 상태\n2. 검토자 권한으로 로그인\n3. 반려 사유가 명확해야 함",
+    testData: "신청번호: APP-2023-001\n반려사유: 사업자등록증 미제출\n검토자ID: reviewer01",
+    expectedResult: "1. 반려 처리 완료\n2. 신청자에게 반려 알림 발송\n3. 반려 사유 상세 안내\n4. 재신청 가능 안내",
+    tags: ["예외처리", "알림테스트"],
   },
   {
-    id: "step-3",
-    stepName: "제출 버튼 클릭",
-    description: "폼 제출 및 서버 응답 대기",
-    duration: "진행중",
-    status: "warning",
-    timestamp: "14:17:36",
-    screenshotSaved: false,
-    consoleLogs: [
-      { level: "info", message: "제출 버튼 클릭", timestamp: "14:17:36.123" },
-      { level: "info", message: "폼 데이터 검증 중", timestamp: "14:17:36.234" },
-      { level: "warn", message: "서버 응답 지연", timestamp: "14:17:36.567" },
-      { level: "info", message: "재시도 중...", timestamp: "14:17:36.678" },
-    ],
+    id: "REQ-BL-00003_TS_003",
+    title: "사업자 등록 검증 프로세스",
+    status: "running",
+    category: "사업자관리",
+    lastRun: "2023-08-29 15:45",
+    duration: "0.3h",
+    successRate: 95.2,
+    totalRuns: 21,
+    author: "박민수",
+    createdAt: "2023-08-03",
+    requirementId: "REQ-BL-00003",
+    requirementName: "사업자 등록 정보 검증",
+    description:
+      "사업자 등록번호의 유효성을 검증하고 국세청 연계를 통해 실제 사업자 정보를 확인하는 프로세스를 테스트합니다.",
+    detailContent: "입력된 사업자등록번호가 실제 존재하는지 국세청 API를 통해 검증하고, 사업자 상태 정보를 확인합니다.",
+    precondition: "1. 국세청 API 연결 상태 정상\n2. 유효한 사업자등록번호 보유\n3. API 호출 권한 확인",
+    testData: "사업자등록번호: 123-45-67890\n대표자명: 홍길동\n상호명: (주)테스트컴퍼니",
+    expectedResult:
+      "1. 사업자등록번호 유효성 확인\n2. 사업자 상태 정보 조회\n3. 대표자명 일치 여부 확인\n4. 검증 결과 저장",
+    tags: ["API연동", "데이터검증"],
   },
   {
-    id: "step-4",
-    stepName: "결과 확인",
-    description: "처리 결과 페이지 이동",
-    duration: "-",
-    status: "pending",
-    timestamp: "-",
-    screenshotSaved: false,
-    consoleLogs: [],
+    id: "REQ-BL-00004_TS_004",
+    title: "지원금 지급 프로세스",
+    status: "ready",
+    category: "지원금관리",
+    lastRun: "2023-08-27 11:20",
+    duration: "0.25h",
+    successRate: 91.7,
+    totalRuns: 12,
+    author: "최지은",
+    createdAt: "2023-08-04",
+    requirementId: "REQ-BL-00004",
+    requirementName: "지원금 지급 관리",
+    description:
+      "승인된 창업 지원 신청에 대해 지원금을 지급하는 전체 프로세스를 검증합니다. 계좌 확인부터 실제 이체까지의 과정을 테스트합니다.",
+    detailContent:
+      "지원금 지급 대상자 선정, 계좌 정보 확인, 지급 승인, 실제 이체 처리까지의 전체 워크플로우를 관리합니다.",
+    precondition: "1. 지원금 지급 승인 완료\n2. 수급자 계좌 정보 등록\n3. 지급 예산 확보",
+    testData: "지원금액: 5,000,000원\n수급자: 홍길동\n계좌번호: 110-123-456789\n은행: 국민은행",
+    expectedResult: "1. 계좌 정보 유효성 확인\n2. 지급 승인 처리\n3. 이체 실행\n4. 지급 완료 알림",
+    tags: ["금융연동", "승인프로세스"],
+  },
+  {
+    id: "REQ-BL-00004_TS_005",
+    title: "지원금 지급 오류 처리",
+    status: "creating",
+    category: "지원금관리",
+    lastRun: "2023-08-26 09:15",
+    duration: "0.18h",
+    successRate: 88.9,
+    totalRuns: 9,
+    author: "정수현",
+    createdAt: "2023-08-05",
+    requirementId: "REQ-BL-00004",
+    requirementName: "지원금 지급 관리",
+    description:
+      "지원금 지급 과정에서 발생할 수 있는 오류 상황을 처리하는 프로세스를 검증합니다. 계좌 오류, 한도 초과 등의 예외 상황을 테스트합니다.",
+    detailContent: "지급 과정에서 발생하는 다양한 오류 상황에 대한 예외 처리 및 복구 절차를 관리합니다.",
+    precondition: "1. 지급 오류 시나리오 설정\n2. 오류 처리 권한 확보\n3. 복구 절차 준비",
+    testData: "오류유형: 계좌정보불일치\n지원금액: 3,000,000원\n오류계좌: 999-999-999999",
+    expectedResult: "1. 오류 감지 및 알림\n2. 오류 사유 분석\n3. 복구 절차 안내\n4. 재처리 또는 반려",
+    tags: ["예외처리", "오류복구"],
   },
 ]
 
@@ -223,6 +270,8 @@ function PimsScenarioDetailComponent({ scenarioId }: Props) {
   const [showSampleReport, setShowSampleReport] = useState(false)
   const [expandedPageLogs, setExpandedPageLogs] = useState<{ [key: string]: boolean }>({})
 
+  const currentScenario = mockScenarioList.find((scenario) => scenario.id === scenarioId) || mockScenarioList[0]
+
   const getStatusIcon = (status: string) => {
     switch (status) {
       case "success":
@@ -242,10 +291,14 @@ function PimsScenarioDetailComponent({ scenarioId }: Props) {
         return "성공"
       case "failed":
         return "실패"
-      case "warning":
-        return "경고"
+      case "creating":
+        return "준비중"
+      case "running":
+        return "실행중"
+      case "ready":
+        return "준비 완료"
       default:
-        return "대기"
+        return "오류"
     }
   }
 
@@ -296,12 +349,65 @@ function PimsScenarioDetailComponent({ scenarioId }: Props) {
         return <AlertTriangle className="h-4 w-4 text-chart-2" />
       case "failed":
         return <XCircle className="h-4 w-4 text-destructive" />
-      case "pending":
+      case "creating":
         return <Clock className="h-4 w-4 text-muted-foreground" />
       default:
         return <Clock className="h-4 w-4 text-muted-foreground" />
     }
   }
+
+  const mockExecutionSteps = [
+    {
+      id: "step-1",
+      stepName: "1. 로그인 페이지 접속",
+      description: "사용자 ID/PW 입력 후 로그인",
+      status: "success",
+      duration: "2.5초",
+      screenshotSaved: true,
+      consoleLogs: [
+        { timestamp: "14:17:32", level: "info", message: "Navigated to login page" },
+        { timestamp: "14:17:33", level: "info", message: "Entered username: test_user01" },
+        { timestamp: "14:17:34", level: "info", message: "Entered password: test123!" },
+      ],
+    },
+    {
+      id: "step-2",
+      stepName: "2. 창업 지원 메뉴 선택",
+      description: "메인 화면에서 창업 지원 메뉴로 이동",
+      status: "success",
+      duration: "1.8초",
+      screenshotSaved: true,
+      consoleLogs: [
+        { timestamp: "14:17:35", level: "info", message: "Clicked on 창업 지원 menu" },
+        { timestamp: "14:17:36", level: "info", message: "Navigated to 창업 지원 page" },
+      ],
+    },
+    {
+      id: "step-3",
+      stepName: "3. 신청서 작성",
+      description: "필수 정보 입력 및 첨부 파일 업로드",
+      status: "failed",
+      duration: "5.2초",
+      screenshotSaved: true,
+      consoleLogs: [
+        { timestamp: "14:17:37", level: "info", message: "Started filling the application form" },
+        { timestamp: "14:17:38", level: "warn", message: "사업자등록번호 field is empty" },
+        { timestamp: "14:17:40", level: "error", message: "Validation error: 사업자등록번호 is required" },
+      ],
+    },
+    {
+      id: "step-4",
+      stepName: "4. 신청서 제출",
+      description: "작성 내용 확인 후 최종 제출",
+      status: "creating",
+      duration: "0.7초",
+      screenshotSaved: false,
+      consoleLogs: [
+        { timestamp: "14:17:41", level: "info", message: "Attempting to submit the form" },
+        { timestamp: "14:17:41", level: "warn", message: "Submit button is disabled" },
+      ],
+    },
+  ]
 
   return (
     <div className="min-h-screen bg-background">
@@ -312,8 +418,24 @@ function PimsScenarioDetailComponent({ scenarioId }: Props) {
               <Button variant="ghost" size="sm" onClick={() => router.push("/test-scenarios")}>
                 <ArrowLeft className="h-4 w-4" />
               </Button>
-              <h1 className="text-xl font-bold text-primary">{mockScenario.title}</h1>
-              <Badge variant="outline">{mockScenario.id}</Badge>
+              <div className="space-y-1">
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <Badge variant="secondary" className="bg-muted/50 text-muted-foreground">
+                    {currentScenario.category}
+                  </Badge>
+                  <span>•</span>
+                  <span>{currentScenario.requirementId}</span>
+                  <span>•</span>
+                  <span>{currentScenario.requirementName}</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2">
+                    {getStatusIcon(currentScenario.status)}
+                    <h1 className="text-xl font-bold text-primary">{currentScenario.title}</h1>
+                  </div>
+                  <Badge variant="outline">{currentScenario.id}</Badge>
+                </div>
+              </div>
             </div>
             <div className="flex items-center gap-3">
               <Button variant="outline" size="sm" onClick={() => setShowScenarioReport(true)}>
@@ -353,7 +475,7 @@ function PimsScenarioDetailComponent({ scenarioId }: Props) {
                     <div className="flex items-center justify-between">
                       <Badge
                         variant={
-                          scenario.status === "completed"
+                          scenario.status === "success"
                             ? "default"
                             : scenario.status === "failed"
                               ? "destructive"
@@ -362,7 +484,7 @@ function PimsScenarioDetailComponent({ scenarioId }: Props) {
                                 : "outline"
                         }
                         className={`text-xs ${
-                          scenario.status === "completed"
+                          scenario.status === "success"
                             ? "bg-chart-1/10 text-chart-1 border-chart-1/20"
                             : scenario.status === "failed"
                               ? "bg-destructive/10 text-destructive border-destructive/20"
@@ -393,135 +515,203 @@ function PimsScenarioDetailComponent({ scenarioId }: Props) {
                   <FileText className="h-5 w-5" />
                   시나리오 정보
                 </CardTitle>
-                <div className="flex gap-2">
-                  <Button variant="outline" size="sm" onClick={() => setShowDetailInfo(!showDetailInfo)}>
-                    <Info className="h-4 w-4 mr-2" />
-                    {showDetailInfo ? "상세정보 숨기기" : "상세정보 보기"}
-                  </Button>
-                  <Button variant="outline" size="sm" onClick={() => setShowPlaywrightCode(!showPlaywrightCode)}>
-                    <Code className="h-4 w-4 mr-2" />
-                    {showPlaywrightCode ? "Playwright 코드 숨기기" : "Playwright 코드 보기"}
-                  </Button>
-                </div>
               </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4 text-sm">
-                    <div>
-                      <span className="font-medium text-muted-foreground">요구사항 ID:</span>
-                      <span className="ml-2 font-mono">{mockScenario.requirementId}</span>
-                    </div>
-                    <div>
-                      <span className="font-medium text-muted-foreground">요구사항명:</span>
-                      <span className="ml-2">{mockScenario.requirementName}</span>
-                    </div>
-                    <div>
-                      <span className="font-medium text-muted-foreground">카테고리:</span>
-                      <span className="ml-2">{mockScenario.category}</span>
-                    </div>
-                    <div>
-                      <span className="font-medium text-muted-foreground">수행시간:</span>
-                      <span className="ml-2">{mockScenario.duration}</span>
-                    </div>
-                    <div>
-                      <span className="font-medium text-muted-foreground">실행횟수:</span>
-                      <span className="ml-2">{mockScenario.executionCount}회</span>
-                    </div>
-                    <div>
-                      <span className="font-medium text-muted-foreground">마지막 실행:</span>
-                      <span className="ml-2">{mockScenario.lastRun}</span>
-                    </div>
-                    <div className="col-span-2">
-                      <span className="font-medium text-muted-foreground">성공률:</span>
-                      <span className={`ml-2 ${getSuccessRateColor(mockScenario.successRate)}`}>
-                        {mockScenario.successRate}%
-                      </span>
-                    </div>
+              <CardContent className="space-y-4">
+                <div className="grid grid-cols-2 gap-4 text-sm">
+                  <div>
+                    <span className="text-muted-foreground">요구사항 ID:</span>
+                    <span className="ml-2 font-medium">{currentScenario.requirementId}</span>
                   </div>
+                  <div>
+                    <span className="text-muted-foreground">요구사항명:</span>
+                    <span className="ml-2 font-medium">{currentScenario.requirementName}</span>
+                  </div>
+                  <div>
+                    <span className="text-muted-foreground">카테고리:</span>
+                    <span className="ml-2 font-medium">{currentScenario.category}</span>
+                  </div>
+                  <div>
+                    <span className="text-muted-foreground">작성자:</span>
+                    <span className="ml-2 font-medium">{currentScenario.author}</span>
+                  </div>
+                  <div>
+                    <span className="text-muted-foreground">생성일:</span>
+                    <span className="ml-2 font-medium">{currentScenario.createdAt}</span>
+                  </div>
+                  <div>
+                    <span className="text-muted-foreground">총 실행 횟수:</span>
+                    <span className="ml-2 font-medium">{currentScenario.totalRuns}회</span>
+                  </div>
+                </div>
 
-                  {showDetailInfo && (
-                    <div className="pt-4 border-t space-y-4">
-                      <div>
-                        <h4 className="font-medium text-sm mb-2 text-muted-foreground">상세내용</h4>
-                        <p className="text-sm bg-muted/30 p-3 rounded-md">{mockScenario.detailContent}</p>
-                      </div>
+                <div className="pt-2">
+                  <p className="text-sm text-muted-foreground mb-2">설명:</p>
+                  <p className="text-sm">{currentScenario.description}</p>
+                </div>
 
-                      <div>
-                        <h4 className="font-medium text-sm mb-2 text-muted-foreground">사전조건</h4>
-                        <pre className="text-sm bg-muted/30 p-3 rounded-md whitespace-pre-wrap">
-                          {mockScenario.precondition}
-                        </pre>
-                      </div>
-
-                      <div>
-                        <h4 className="font-medium text-sm mb-2 text-muted-foreground">테스트 데이터</h4>
-                        <pre className="text-sm bg-muted/30 p-3 rounded-md whitespace-pre-wrap font-mono">
-                          {mockScenario.testData}
-                        </pre>
-                      </div>
-
-                      <div>
-                        <h4 className="font-medium text-sm mb-2 text-muted-foreground">예상결과</h4>
-                        <pre className="text-sm bg-muted/30 p-3 rounded-md whitespace-pre-wrap">
-                          {mockScenario.expectedResult}
-                        </pre>
-                      </div>
-                    </div>
-                  )}
+                <div className="flex items-center justify-between pt-2">
+                  <div className="flex items-center gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setShowDetailInfo(!showDetailInfo)}
+                      className="flex items-center gap-2"
+                    >
+                      {showDetailInfo ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+                      상세정보 보기
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setShowPlaywrightCode(!showPlaywrightCode)}
+                      className="flex items-center gap-2"
+                    >
+                      {showPlaywrightCode ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+                      Playwright 코드 보기
+                    </Button>
+                  </div>
                 </div>
 
                 {showPlaywrightCode && (
-                  <div className="mt-6 pt-6 border-t">
-                    <h4 className="font-medium mb-3 flex items-center gap-2">
-                      <Code className="h-4 w-4" />
-                      생성된 Playwright 코드
-                    </h4>
-                    <div className="bg-muted rounded-lg p-4 overflow-x-auto">
-                      <pre className="text-sm font-mono">
+                  <div className="space-y-4 pt-4 border-t">
+                    <div>
+                      <div className="flex items-center justify-between mb-3">
+                        <h4 className="font-medium">생성된 Playwright 코드</h4>
+                        <div className="flex items-center gap-2">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => {
+                              const code = `import { test, expect } from '@playwright/test';
+
+test('${currentScenario.title}', async ({ page }) => {
+  // 1. 로그인 페이지 접속
+  await page.goto('https://example.com/login');
+  await page.fill('#username', 'test_user01');
+  await page.fill('#password', 'test123!');
+  await page.click('#login-button');
+  
+  // 2. 창업 지원 메뉴 선택
+  await page.waitForSelector('.main-menu');
+  await page.click('text=창업 지원');
+  
+  // 3. 신청서 작성
+  await page.fill('#business-number', '123-45-67890');
+  await page.fill('#representative-name', '홍길동');
+  await page.fill('#business-address', '서울시 강남구 테헤란로 123');
+  
+  // 4. 신청서 제출
+  await page.click('#submit-button');
+  await expect(page.locator('.success-message')).toBeVisible();
+});`
+                              navigator.clipboard.writeText(code)
+                            }}
+                            className="text-xs"
+                          >
+                            복사
+                          </Button>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => {
+                              const element = document.createElement("a")
+                              const file = new Blob(
+                                [
+                                  `import { test, expect } from '@playwright/test';
+
+test('${currentScenario.title}', async ({ page }) => {
+  // 1. 로그인 페이지 접속
+  await page.goto('https://example.com/login');
+  await page.fill('#username', 'test_user01');
+  await page.fill('#password', 'test123!');
+  await page.click('#login-button');
+  
+  // 2. 창업 지원 메뉴 선택
+  await page.waitForSelector('.main-menu');
+  await page.click('text=창업 지원');
+  
+  // 3. 신청서 작성
+  await page.fill('#business-number', '123-45-67890');
+  await page.fill('#representative-name', '홍길동');
+  await page.fill('#business-address', '서울시 강남구 테헤란로 123');
+  
+  // 4. 신청서 제출
+  await page.click('#submit-button');
+  await expect(page.locator('.success-message')).toBeVisible();
+});`,
+                                ],
+                                { type: "text/plain" },
+                              )
+                              element.href = URL.createObjectURL(file)
+                              element.download = `${currentScenario.id}.spec.ts`
+                              document.body.appendChild(element)
+                              element.click()
+                              document.body.removeChild(element)
+                            }}
+                            className="text-xs"
+                          >
+                            <Download className="h-3 w-3 mr-1" />
+                            다운로드
+                          </Button>
+                        </div>
+                      </div>
+                      <pre className="text-sm bg-muted/30 p-4 rounded-md overflow-x-auto font-mono border">
                         <code>{`import { test, expect } from '@playwright/test';
 
-test('정상 창업 지원프로세스 처리', async ({ page }) => {
-  // 페이지 로드
-  await page.goto('https://example.com/startup-support');
-  await expect(page).toHaveTitle(/창업 지원/);
-  
-  // 로그인 폼 입력
-  await page.fill('#username', 'test@example.com');
-  await page.fill('#password', 'password123');
-  await page.screenshot({ path: 'login-form.png' });
-  
-  // 제출 버튼 클릭
+test('${currentScenario.title}', async ({ page }) => {
+  // 1. 로그인 페이지 접속
+  await page.goto('https://example.com/login');
+  await page.fill('#username', 'test_user01');
+  await page.fill('#password', 'test123!');
   await page.click('#login-button');
-  await page.waitForLoadState('networkidle');
   
-  // 결과 확인
+  // 2. 창업 지원 메뉴 선택
+  await page.waitForSelector('.main-menu');
+  await page.click('text=창업 지원');
+  
+  // 3. 신청서 작성
+  await page.fill('#business-number', '123-45-67890');
+  await page.fill('#representative-name', '홍길동');
+  await page.fill('#business-address', '서울시 강남구 테헤란로 123');
+  
+  // 4. 신청서 제출
+  await page.click('#submit-button');
   await expect(page.locator('.success-message')).toBeVisible();
-  await expect(page.locator('.dashboard')).toBeVisible();
-  
-  // 창업 지원 신청 프로세스
-  await page.click('[data-testid="startup-application"]');
-  await page.fill('#business-name', '테스트 사업체');
-  await page.fill('#business-type', '기술창업');
-  await page.selectOption('#support-type', 'funding');
-  
-  // 신청서 제출
-  await page.click('#submit-application');
-  await expect(page.locator('.application-success')).toBeVisible();
-  
-  // 최종 스크린샷
-  await page.screenshot({ path: 'application-complete.png' });
 });`}</code>
                       </pre>
+                      <p className="text-xs text-muted-foreground mt-2">
+                        * 이 코드는 테스트 시나리오를 기반으로 자동 생성되었습니다. 실제 환경에 맞게 셀렉터와 URL을
+                        수정해주세요.
+                      </p>
                     </div>
-                    <div className="mt-3 flex gap-2">
-                      <Button variant="outline" size="sm">
-                        <Copy className="h-4 w-4 mr-2" />
-                        코드 복사
-                      </Button>
-                      <Button variant="outline" size="sm">
-                        <Download className="h-4 w-4 mr-2" />
-                        파일 다운로드
-                      </Button>
+                  </div>
+                )}
+
+                {showDetailInfo && (
+                  <div className="space-y-4 pt-4 border-t">
+                    <div>
+                      <h4 className="font-medium mb-2">상세내용</h4>
+                      <p className="text-sm text-muted-foreground bg-muted/30 p-3 rounded-md">
+                        {currentScenario.detailContent}
+                      </p>
+                    </div>
+                    <div>
+                      <h4 className="font-medium mb-2">사전조건</h4>
+                      <pre className="text-sm text-muted-foreground bg-muted/30 p-3 rounded-md whitespace-pre-wrap">
+                        {currentScenario.precondition}
+                      </pre>
+                    </div>
+                    <div>
+                      <h4 className="font-medium mb-2">테스트 데이터</h4>
+                      <pre className="text-sm text-muted-foreground bg-muted/30 p-3 rounded-md whitespace-pre-wrap font-mono">
+                        {currentScenario.testData}
+                      </pre>
+                    </div>
+                    <div>
+                      <h4 className="font-medium mb-2">예상결과</h4>
+                      <pre className="text-sm text-muted-foreground bg-muted/30 p-3 rounded-md whitespace-pre-wrap">
+                        {currentScenario.expectedResult}
+                      </pre>
                     </div>
                   </div>
                 )}
@@ -822,6 +1012,7 @@ test('정상 창업 지원프로세스 처리', async ({ page }) => {
                 </div>
 
                 {/* Test Results Table */}
+                {/*
                 <div>
                   <h3 className="font-semibold mb-3">테스트 시나리오 실행 결과</h3>
                   <div className="border rounded-lg overflow-hidden">
@@ -872,6 +1063,7 @@ test('정상 창업 지원프로세스 처리', async ({ page }) => {
                     </table>
                   </div>
                 </div>
+                */}
 
                 {/* Test Steps */}
                 <div>
@@ -1058,7 +1250,7 @@ test('정상 창업 지원프로세스 처리', async ({ page }) => {
                 </div>
 
                 {/* Screenshots Section */}
-                <div>
+                {/* <div>
                   <h3 className="font-semibold mb-3">스크린샷</h3>
                   <div className="grid grid-cols-2 gap-4">
                     <div className="border rounded-lg p-3">
@@ -1074,7 +1266,8 @@ test('정상 창업 지원프로세스 처리', async ({ page }) => {
                       <p className="text-xs text-muted-foreground">REQ-BL-00001_TS_002 - 오류 발생 시점</p>
                     </div>
                   </div>
-                </div>
+                </div> 
+                /*}
 
                 {/* Scenario Video Viewer Section */}
                 <div>
