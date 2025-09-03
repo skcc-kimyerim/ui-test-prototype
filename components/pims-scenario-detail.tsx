@@ -50,7 +50,7 @@ const mockScenario = {
   description:
     "사용자 창업 지원 신청 접수부터 승인까지의 전체 프로세스를 검증합니다. 3단계 검증 과정을 거쳐 최종 승인까지의 워크플로우를 테스트합니다.",
   category: "창업지원",
-  status: "completed",
+  status: "success",
   lastRun: "2023-08-29 14:17",
   duration: "0.2h",
   successRate: 93.3,
@@ -141,10 +141,11 @@ const mockExecutionHistory: ExecutionHistory[] = [
 ]
 
 const mockScenarioList = [
-  { id: "REQ-BL-00001_TS_001", title: "정상 창업 지원프로세스 처리", status: "completed" },
+  { id: "REQ-BL-00001_TS_001", title: "정상 창업 지원프로세스 처리", status: "success" },
   { id: "REQ-BL-00002_TS_002", title: "창업 지원 신청 반려 처리", status: "failed" },
   { id: "REQ-BL-00003_TS_003", title: "사업자 등록 검증 프로세스", status: "running" },
-  { id: "REQ-BL-00004_TS_004", title: "지원금 지급 프로세스", status: "pending" },
+  { id: "REQ-BL-00004_TS_004", title: "지원금 지급 프로세스", status: "ready" },
+  { id: "REQ-BL-00004_TS_005", title: "지원금 지급 프로세스", status: "creating" },
 ]
 
 const mockExecutionSteps = [
@@ -242,10 +243,14 @@ function PimsScenarioDetailComponent({ scenarioId }: Props) {
         return "성공"
       case "failed":
         return "실패"
-      case "warning":
-        return "경고"
+      case "creating":
+        return "준비중"
+      case "running":
+        return "실행중"
+      case "ready":
+        return "준비 완료"
       default:
-        return "대기"
+        return "오류"
     }
   }
 
@@ -296,7 +301,7 @@ function PimsScenarioDetailComponent({ scenarioId }: Props) {
         return <AlertTriangle className="h-4 w-4 text-chart-2" />
       case "failed":
         return <XCircle className="h-4 w-4 text-destructive" />
-      case "pending":
+      case "creating":
         return <Clock className="h-4 w-4 text-muted-foreground" />
       default:
         return <Clock className="h-4 w-4 text-muted-foreground" />
@@ -353,7 +358,7 @@ function PimsScenarioDetailComponent({ scenarioId }: Props) {
                     <div className="flex items-center justify-between">
                       <Badge
                         variant={
-                          scenario.status === "completed"
+                          scenario.status === "success"
                             ? "default"
                             : scenario.status === "failed"
                               ? "destructive"
@@ -362,7 +367,7 @@ function PimsScenarioDetailComponent({ scenarioId }: Props) {
                                 : "outline"
                         }
                         className={`text-xs ${
-                          scenario.status === "completed"
+                          scenario.status === "success"
                             ? "bg-chart-1/10 text-chart-1 border-chart-1/20"
                             : scenario.status === "failed"
                               ? "bg-destructive/10 text-destructive border-destructive/20"
@@ -822,6 +827,7 @@ test('정상 창업 지원프로세스 처리', async ({ page }) => {
                 </div>
 
                 {/* Test Results Table */}
+                {/*
                 <div>
                   <h3 className="font-semibold mb-3">테스트 시나리오 실행 결과</h3>
                   <div className="border rounded-lg overflow-hidden">
@@ -872,7 +878,8 @@ test('정상 창업 지원프로세스 처리', async ({ page }) => {
                     </table>
                   </div>
                 </div>
-
+                */}
+                
                 {/* Test Steps */}
                 <div>
                   <h3 className="font-semibold mb-3">테스트 단계</h3>
@@ -1058,7 +1065,7 @@ test('정상 창업 지원프로세스 처리', async ({ page }) => {
                 </div>
 
                 {/* Screenshots Section */}
-                <div>
+                {/* <div>
                   <h3 className="font-semibold mb-3">스크린샷</h3>
                   <div className="grid grid-cols-2 gap-4">
                     <div className="border rounded-lg p-3">
@@ -1074,7 +1081,8 @@ test('정상 창업 지원프로세스 처리', async ({ page }) => {
                       <p className="text-xs text-muted-foreground">REQ-BL-00001_TS_002 - 오류 발생 시점</p>
                     </div>
                   </div>
-                </div>
+                </div> 
+                /*}
 
                 {/* Scenario Video Viewer Section */}
                 <div>

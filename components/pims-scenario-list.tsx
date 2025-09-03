@@ -26,7 +26,7 @@ interface PimsScenario {
   id: string
   title: string
   description: string
-  status: "completed" | "failed" | "running" | "pending"
+  status: "completed" | "failed" | "running" | "ready" | "creating" | "error"
   lastRun: string
   duration: string
   successRate: number
@@ -68,7 +68,17 @@ const initialScenarios: PimsScenario[] = [
     id: "REQ-BL-00004_TS_004",
     title: "지원금 지급 프로세스",
     description: "승인된 창업 지원 신청에 대한 지원금 지급 프로세스를 검증합니다.",
-    status: "pending",
+    status: "ready",
+    lastRun: "2023-08-28 16:30",
+    duration: "0.25h",
+    successRate: 91.7,
+    category: "지원금",
+  },
+  {
+    id: "REQ-BL-00004_TS_005",
+    title: "지원금 지급 프로세스2",
+    description: "승인된 창업 지원 신청에 대한 지원금 지급 프로세스를 검증합니다.",
+    status: "creating",
     lastRun: "2023-08-28 16:30",
     duration: "0.25h",
     successRate: 91.7,
@@ -81,7 +91,7 @@ const pimsScenarios: PimsScenario[] = [
     id: "PIMS-001_TS_001",
     title: "온라인 사업자 등록 신청",
     description: "온라인을 통한 사업자 등록 신청 프로세스의 전체 워크플로우를 검증합니다.",
-    status: "pending",
+    status: "error",
     lastRun: "2023-09-03 10:30",
     duration: "0.4h",
     successRate: 89.2,
@@ -91,7 +101,7 @@ const pimsScenarios: PimsScenario[] = [
     id: "PIMS-002_TS_002",
     title: "세무 신고 자동화 프로세스",
     description: "자동화된 세무 신고 시스템의 정확성과 안정성을 검증합니다.",
-    status: "pending",
+    status: "creating",
     lastRun: "2023-09-03 10:30",
     duration: "0.6h",
     successRate: 94.7,
@@ -101,7 +111,7 @@ const pimsScenarios: PimsScenario[] = [
     id: "PIMS-003_TS_003",
     title: "정부 지원금 신청 통합 프로세스",
     description: "여러 정부 지원금을 통합 신청하는 프로세스의 효율성을 검증합니다.",
-    status: "pending",
+    status: "creating",
     lastRun: "2023-09-03 10:30",
     duration: "0.5h",
     successRate: 92.1,
@@ -141,13 +151,17 @@ export function PimsScenarioList() {
   const getStatusText = (status: string) => {
     switch (status) {
       case "completed":
-        return "완료"
+        return "성공"
       case "failed":
         return "실패"
       case "running":
         return "실행중"
+      case "ready":
+        return "준비 완료"
+      case "creating":
+        return "준비중"
       default:
-        return "대기"
+        return "오류"
     }
   }
 
@@ -314,6 +328,17 @@ export function PimsScenarioList() {
                     />
 
                     <div className="flex-1 space-y-3" onClick={() => router.push(`/test-scenarios/${scenario.id}`)}>
+                      <div className="flex items-center gap-2 mb-2">
+                        
+                        <Badge variant="secondary" className="bg-muted/50 text-muted-foreground text-xs">
+                          {scenario.category}
+                        </Badge>
+
+                        <Badge variant="outline" className=" text-muted-foreground text-xs">
+                          REQ-BL-00001
+                        </Badge>
+                      </div>
+
                       <div className="flex items-center gap-3">
                         {getStatusIcon(scenario.status)}
                         <h3 className="font-semibold text-lg">{scenario.title}</h3>
@@ -325,13 +350,6 @@ export function PimsScenarioList() {
                       <p className="text-muted-foreground">{scenario.description}</p>
 
                       <div className="flex items-center gap-6 text-sm">
-                        <div className="flex items-center gap-2">
-                          <span className="text-muted-foreground">요구사항:</span>
-                          <Badge variant="secondary" className="bg-muted/50 text-muted-foreground">
-                            {scenario.category}
-                          </Badge>
-                        </div>
-
                         <div className="flex items-center gap-2">
                           <span className="text-muted-foreground">상태:</span>
                           <Badge
