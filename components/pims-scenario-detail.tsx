@@ -425,8 +425,6 @@ function PimsScenarioDetailComponent({ scenarioId }: Props) {
                   </Badge>
                   <span>•</span>
                   <span>{currentScenario.requirementId}</span>
-                  <span>•</span>
-                  <span>{currentScenario.requirementName}</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="flex items-center gap-2">
@@ -524,10 +522,6 @@ function PimsScenarioDetailComponent({ scenarioId }: Props) {
                   </div>
                   <div>
                     <span className="text-muted-foreground">요구사항명:</span>
-                    <span className="ml-2 font-medium">{currentScenario.requirementName}</span>
-                  </div>
-                  <div>
-                    <span className="text-muted-foreground">카테고리:</span>
                     <span className="ml-2 font-medium">{currentScenario.category}</span>
                   </div>
                   <div>
