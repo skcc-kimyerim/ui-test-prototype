@@ -288,7 +288,7 @@ function PimsScenarioDetailComponent({ scenarioId }: PimsScenarioDetailProps) {
               <div className="flex items-center justify-center h-full min-h-[400px]">
                 <div className="text-center space-y-6">
                   <div className="relative">
-                    <Loader2 className="h-16 w-16 animate-spin text-primary mx-auto" />
+                    
                   </div>
                   <div className="space-y-2">
                     <h3 className="text-xl font-semibold">AI가 적합한 테스트를 준비중입니다</h3>
