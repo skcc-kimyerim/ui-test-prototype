@@ -46,7 +46,7 @@ const initialScenarios: PimsScenario[] = [
   },
   {
     id: "REQ-BL-00002_TS_002",
-    title: "창업 지원 신청 반려 처리",
+    title: "창업 지��� 신청 반려 처리",
     description: "부적절한 창업 지원 신청에 대한 반려 프로세스를 검증합니다.",
     status: "failed",
     lastRun: "2023-08-29 13:45",
@@ -143,6 +143,10 @@ export function PimsScenarioList() {
         return <XCircle className="h-4 w-4 text-destructive" />
       case "running":
         return <Play className="h-4 w-4 text-chart-2" />
+      case "error":
+        return <XCircle className="h-4 w-4 text-destructive" />
+      case "creating":
+        return <Loader2 className="h-4 w-4 text-muted-foreground animate-spin" />
       default:
         return <Clock className="h-4 w-4 text-muted-foreground" />
     }
@@ -231,9 +235,7 @@ export function PimsScenarioList() {
               <h1 className="text-xl font-bold text-primary">PIMS 테스트 시나리오</h1>
             </div>
             <div className="flex items-center gap-3">
-              <Button variant="ghost" size="sm">
-                <Search className="h-4 w-4" />
-              </Button>
+              <Button variant="ghost" size="sm"></Button>
               <Avatar className="h-8 w-8">
                 <AvatarFallback>김</AvatarFallback>
               </Avatar>
@@ -329,7 +331,6 @@ export function PimsScenarioList() {
 
                     <div className="flex-1 space-y-3" onClick={() => router.push(`/test-scenarios/${scenario.id}`)}>
                       <div className="flex items-center gap-2 mb-2">
-                        
                         <Badge variant="secondary" className="bg-muted/50 text-muted-foreground text-xs">
                           {scenario.category}
                         </Badge>
@@ -360,7 +361,9 @@ export function PimsScenarioList() {
                                   ? "destructive"
                                   : scenario.status === "running"
                                     ? "secondary"
-                                    : "outline"
+                                    : scenario.status === "creating"
+                                      ? "outline"
+                                      : "destructive"
                             }
                             className={
                               scenario.status === "completed"
@@ -369,7 +372,9 @@ export function PimsScenarioList() {
                                   ? "bg-destructive/10 text-destructive border-destructive/20"
                                   : scenario.status === "running"
                                     ? "bg-chart-2/10 text-chart-2 border-chart-2/20"
-                                    : ""
+                                    : scenario.status === "creating"
+                                      ? "bg-muted/10 text-muted-foreground border-muted/20"
+                                      : "bg-destructive/10 text-destructive border-destructive/20"
                             }
                           >
                             {getStatusText(scenario.status)}
