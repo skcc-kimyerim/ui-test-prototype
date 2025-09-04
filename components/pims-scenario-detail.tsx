@@ -569,14 +569,14 @@ test('${currentScenario.title}', async ({ page }) => {
                           </pre>
                         </div>
                         <div>
-                          <h4 className="font-medium mb-2">상세내용</h4>
+                          <h4 className="font-medium mb-2">예상 결과</h4>
                           <pre className="text-sm text-muted-foreground bg-muted/30 p-3 rounded-md whitespace-pre-wrap">
                             {currentScenario.expectedResult}
                           </pre>
                         </div>
 
                         <div>
-                          <h4 className="font-medium mb-2">상세내용</h4>
+                          <h4 className="font-medium mb-2">사전 조건</h4>
                           <p className="text-sm text-muted-foreground bg-muted/30 p-3 rounded-md whitespace-pre-wrap">
                             {currentScenario.precondition}
                           </p>
