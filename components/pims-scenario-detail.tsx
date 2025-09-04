@@ -26,56 +26,27 @@ import {
   Loader2,
   RotateCcw,
 } from "lucide-react"
-
-interface ExecutionHistory {
-  id: string
-  executedAt: string
-  executedBy: string
-  status: "success" | "failed" | "warning"
-  successRate: number
-  totalTests: number
-  passedTests: number
-  failedTests: number
-  duration: string
-  version: string
-}
+import {
+  scenariosData,
+  executionHistoryData,
+  type PimsScenario,
+  type ExecutionHistory,
+} from "@/lib/scenarios-data"
+import {
+  getStatusIcon,
+  getStatusText,
+  getSuccessRateColor,
+  getStatusBadgeVariant,
+  getStatusBadgeClassName,
+  getLogLevelColor,
+  getLogLevelBg,
+  getStepStatusIcon,
+} from "@/lib/scenario-utils"
 
 interface PimsScenarioDetailProps {
   scenarioId: string
 }
 
-const mockScenario = {
-  id: "REQ-BL-00001_TS_001",
-  title: "정상 창업 지원프로세스 처리",
-  description:
-    "사용자 업 지원 신청 접수부터 승인까지의 전체 프로세스를 검증합니다. 3단계 검증 과정을 거쳐 최종 승인까지의 워크플로우를 테스트합니다.",
-  category: "창업지원",
-  status: "success",
-  lastRun: "2023-08-29 14:17",
-  duration: "0.2h",
-  successRate: 93.3,
-  totalRuns: 15,
-  author: "김철수",
-  createdAt: "2023-08-01",
-  tags: ["회귀테스트", "스모크테스트", "자동화"],
-  requirementId: "REQ-BL-00001",
-  requirementName: "창업 지원 프로세스 관리",
-  detailContent: "창업 지원 신청이 정상적으로 이루어지고 내역 조회가 정상적으로 이루어진다.",
-  precondition: `1. 시스템에 로그인된 상태여야 함
-    2. 창업 지원 메뉴에 접근 권한이 있어야 함
-    3. 필수 서류가 준비되어 있어야 함`,
-  testData:
-    "사용자ID: test_user01\n비밀번호: test123!\n사업자등록번호: 123-45-67890\n대표자명: 홍길동\n사업장주소: 서울시 강남구 테헤란로 123",
-  expectedResult:
-    "1. 로그인 성공 후 메인 화면 이동\n2. 창업 지원 메뉴 정상 접근\n3. 신청서 작성 완료\n4. 제출 후 접수 완료 메시지 표시\n5. 신청 내역 조회 가능",
-  steps: [
-    { action: "1. 로그인 페이지 접속", description: "사용자 ID/PW 입력 후 로그인" },
-    { action: "2. 창업 지원 메뉴 선택", description: "메인 화면에서 창업 지원 메뉴로 이동" },
-    { action: "3. 신청서 작성", description: "필수 정보 입력 및 첨부 파일 업로드" },
-    { action: "4. 신청서 제출", description: "작성 내용 확인 후 최종 제출" },
-  ],
-  executionCount: 15,
-}
 
 const mockExecutionHistory: ExecutionHistory[] = [
   {
@@ -306,49 +277,8 @@ function PimsScenarioDetailComponent({ scenarioId }: Props) {
   const [showSampleReport, setShowSampleReport] = useState(false)
   const [expandedPageLogs, setExpandedPageLogs] = useState<{ [key: string]: boolean }>({})
 
-  const currentScenario = mockScenarioList.find((scenario) => scenario.id === scenarioId) || mockScenarioList[0]
+  const currentScenario = scenariosData.find((scenario) => scenario.id === scenarioId) || scenariosData[0]
 
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case "success":
-        return <CheckCircle className="h-4 w-4 text-chart-1" />
-      case "failed":
-        return <XCircle className="h-4 w-4 text-destructive" />
-      case "running":
-        return <Play className="h-4 w-4 text-chart-2" />
-      case "error":
-        return <XCircle className="h-4 w-4 text-destructive" />
-      case "creating":
-        return <Loader2 className="h-4 w-4 text-muted-foreground animate-spin" />
-      default:
-        return <Clock className="h-4 w-4 text-muted-foreground" />
-    }
-  }
-
-  const getStatusText = (status: string) => {
-    switch (status) {
-      case "success":
-        return "성공"
-      case "failed":
-        return "실패"
-      case "creating":
-        return "준비중"
-      case "running":
-        return "실행중"
-      case "ready":
-        return "준비 완료"
-      case "error":
-        return "오류"
-      default:
-        return "알 수 없음"
-    }
-  }
-
-  const getSuccessRateColor = (rate: number) => {
-    if (rate >= 90) return "text-chart-1"
-    if (rate >= 70) return "text-chart-2"
-    return "text-destructive"
-  }
 
   const togglePageLogs = (pageId: string) => {
     setExpandedPages((prev) => ({
@@ -357,49 +287,9 @@ function PimsScenarioDetailComponent({ scenarioId }: Props) {
     }))
   }
 
-  const getLogLevelColor = (level: string) => {
-    switch (level) {
-      case "error":
-        return "text-destructive"
-      case "warn":
-        return "text-chart-2"
-      case "info":
-        return "text-muted-foreground"
-      default:
-        return "text-muted-foreground"
-    }
-  }
-
-  const getLogLevelBg = (level: string) => {
-    switch (level) {
-      case "error":
-        return "bg-destructive/5"
-      case "warn":
-        return "bg-chart-2/5"
-      case "info":
-        return "bg-muted/20"
-      default:
-        return "bg-muted/20"
-    }
-  }
-
-  const getStepStatusIcon = (status: string) => {
-    switch (status) {
-      case "success":
-        return <CheckCircle className="h-4 w-4 text-chart-1" />
-      case "warning":
-        return <AlertTriangle className="h-4 w-4 text-chart-2" />
-      case "failed":
-        return <XCircle className="h-4 w-4 text-destructive" />
-      case "creating":
-        return <Clock className="h-4 w-4 text-muted-foreground" />
-      default:
-        return <Clock className="h-4 w-4 text-muted-foreground" />
-    }
-  }
 
   const getExecutionStepsForHistory = (historyId: string) => {
-    const history = mockExecutionHistory.find((h) => h.id === historyId)
+    const history = executionHistoryData.find((h) => h.id === historyId)
     if (!history) return []
 
     const baseSteps = [
@@ -578,7 +468,7 @@ function PimsScenarioDetailComponent({ scenarioId }: Props) {
             <h2 className="font-semibold text-primary mb-4">테스트 시나리오 목록</h2>
           </div>
           <div className="flex-1 overflow-auto p-2 space-y-2">
-            {mockScenarioList.map((scenario) => (
+            {scenariosData.map((scenario) => (
               <Card
                 key={scenario.id}
                 className={`cursor-pointer transition-colors hover:bg-muted/50 ${
@@ -591,32 +481,8 @@ function PimsScenarioDetailComponent({ scenarioId }: Props) {
                     <h4 className="font-medium text-sm leading-tight">{scenario.title}</h4>
                     <div className="flex items-center justify-between">
                       <Badge
-                          variant={
-                            scenario.status === "success"
-                              ? "default"
-                              : scenario.status === "failed"
-                                ? "destructive"
-                                : scenario.status === "running"
-                                  ? "secondary"
-                                  : scenario.status === "ready"
-                                    ? "secondary"  // 또는 "default"
-                                    : scenario.status === "creating"
-                                      ? "outline"
-                                      : "destructive"
-                          }
-                          className={`${
-                            scenario.status === "success"
-                              ? "bg-chart-1/10 text-chart-1 border-chart-1/20"
-                              : scenario.status === "failed"
-                                ? "bg-destructive/10 text-destructive border-destructive/20"
-                                : scenario.status === "running"
-                                  ? "bg-chart-2/10 text-chart-2 border-chart-2/20"
-                                  : scenario.status === "ready"
-                                    ? "bg-blue-500/10 text-blue-600 border-blue-500/20"
-                                    : scenario.status === "creating"
-                                      ? "bg-muted/10 text-muted-foreground border-muted/20"
-                                      : "bg-destructive/10 text-destructive border-destructive/20"
-                          }`}
+                          variant={getStatusBadgeVariant(scenario.status)}
+                          className={getStatusBadgeClassName(scenario.status)}
                         >
                         {getStatusText(scenario.status)}
                       </Badge>
@@ -961,7 +827,7 @@ test('${currentScenario.title}', async ({ page }) => {
                       </div>
                     )}
                     <div className="space-y-2">
-                      {mockExecutionHistory.map((history) => (
+                      {executionHistoryData.map((history) => (
                         <div
                           key={history.id}
                           className={`p-4 rounded-lg border cursor-pointer transition-colors hover:bg-muted/50 ${
@@ -1212,7 +1078,7 @@ test('${currentScenario.title}', async ({ page }) => {
                         </tr>
                       </thead>
                       <tbody>
-                        {mockExecutionHistory.map((history) => (
+                        {executionHistoryData.map((history) => (
                           <tr key={history.id} className="border-t">
                             <td className="p-3 text-sm">{history.executedAt}</td>
                             <td className="p-3 text-sm">{history.executedBy}</td>
@@ -1333,7 +1199,7 @@ test('${currentScenario.title}', async ({ page }) => {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <CardTitle className="text-primary">
-                  실행 보고서 - {mockExecutionHistory.find((h) => h.id === selectedExecutionId)?.executedAt}
+                  실행 보고서 - {executionHistoryData.find((h) => h.id === selectedExecutionId)?.executedAt}
                 </CardTitle>
                 <div className="flex items-center gap-2">
                   <Button variant="outline" size="sm" className="border-primary/20 hover:bg-primary/5 bg-transparent">
@@ -1360,23 +1226,23 @@ test('${currentScenario.title}', async ({ page }) => {
                       <div className="space-y-1 text-sm">
                         <div className="flex justify-between">
                           <span className="text-muted-foreground">실행 ID:</span>
-                          <span>{mockExecutionHistory.find((h) => h.id === selectedExecutionId)?.id}</span>
+                          <span>{executionHistoryData.find((h) => h.id === selectedExecutionId)?.id}</span>
                         </div>
                         <div className="flex justify-between">
                           <span className="text-muted-foreground">실행 일시:</span>
-                          <span>{mockExecutionHistory.find((h) => h.id === selectedExecutionId)?.executedAt}</span>
+                          <span>{executionHistoryData.find((h) => h.id === selectedExecutionId)?.executedAt}</span>
                         </div>
                         <div className="flex justify-between">
                           <span className="text-muted-foreground">실행자:</span>
-                          <span>{mockExecutionHistory.find((h) => h.id === selectedExecutionId)?.executedBy}</span>
+                          <span>{executionHistoryData.find((h) => h.id === selectedExecutionId)?.executedBy}</span>
                         </div>
                         <div className="flex justify-between">
                           <span className="text-muted-foreground">버전:</span>
-                          <span>{mockExecutionHistory.find((h) => h.id === selectedExecutionId)?.version}</span>
+                          <span>{executionHistoryData.find((h) => h.id === selectedExecutionId)?.version}</span>
                         </div>
                         <div className="flex justify-between">
                           <span className="text-muted-foreground">총 소요시간:</span>
-                          <span>{mockExecutionHistory.find((h) => h.id === selectedExecutionId)?.duration}</span>
+                          <span>{executionHistoryData.find((h) => h.id === selectedExecutionId)?.duration}</span>
                         </div>
                       </div>
                     </div>
@@ -1385,21 +1251,21 @@ test('${currentScenario.title}', async ({ page }) => {
                       <div className="grid grid-cols-3 gap-3 text-center">
                         <div className="bg-chart-1/10 rounded-lg p-3">
                           <div className="text-2xl font-bold text-chart-1">
-                            {mockExecutionHistory.find((h) => h.id === selectedExecutionId)?.passedTests}
+                            {executionHistoryData.find((h) => h.id === selectedExecutionId)?.passedTests}
                           </div>
                           <div className="text-xs text-muted-foreground">성공</div>
                         </div>
                         <div className="bg-destructive/10 rounded-lg p-3">
                           <div className="text-2xl font-bold text-destructive">
-                            {mockExecutionHistory.find((h) => h.id === selectedExecutionId)?.failedTests}
+                            {executionHistoryData.find((h) => h.id === selectedExecutionId)?.failedTests}
                           </div>
                           <div className="text-xs text-muted-foreground">실패</div>
                         </div>
                         <div className="bg-chart-2/10 rounded-lg p-3">
                           <div
-                            className={`text-2xl font-bold ${getSuccessRateColor(mockExecutionHistory.find((h) => h.id === selectedExecutionId)?.successRate || 0)}`}
+                            className={`text-2xl font-bold ${getSuccessRateColor(executionHistoryData.find((h) => h.id === selectedExecutionId)?.successRate || 0)}`}
                           >
-                            {mockExecutionHistory.find((h) => h.id === selectedExecutionId)?.successRate}%
+                            {executionHistoryData.find((h) => h.id === selectedExecutionId)?.successRate}%
                           </div>
                           <div className="text-xs text-muted-foreground">성공률</div>
                         </div>

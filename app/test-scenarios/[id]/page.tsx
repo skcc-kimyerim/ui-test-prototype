@@ -1,11 +1,12 @@
 import { PimsScenarioDetail } from "@/components/pims-scenario-detail"
 
 interface PimsScenarioPageProps {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
-export default function PimsScenarioPage({ params }: PimsScenarioPageProps) {
-  return <PimsScenarioDetail scenarioId={params.id} />
+export default async function PimsScenarioPage({ params }: PimsScenarioPageProps) {
+  const { id } = await params
+  return <PimsScenarioDetail scenarioId={id} />
 }
