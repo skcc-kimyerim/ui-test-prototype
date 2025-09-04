@@ -24,7 +24,7 @@ export interface ExecutionHistory {
   id: string
   executedAt: string
   executedBy: string
-  status: "success" | "failed" | "warning"
+  status: "success" | "failed" | "warning" | "running"
   successRate: number
   totalTests: number
   passedTests: number

@@ -48,224 +48,9 @@ interface PimsScenarioDetailProps {
 }
 
 
-const mockExecutionHistory: ExecutionHistory[] = [
-  {
-    id: "1",
-    executedAt: "2023-08-29 14:17",
-    executedBy: "김철수",
-    status: "success",
-    successRate: 93.3,
-    totalTests: 15,
-    passedTests: 14,
-    failedTests: 1,
-    duration: "12분 34초",
-    version: "v2.1.0",
-  },
-  {
-    id: "2",
-    executedAt: "2023-08-28 16:45",
-    executedBy: "이영희",
-    status: "failed",
-    successRate: 73.3,
-    totalTests: 15,
-    passedTests: 11,
-    failedTests: 4,
-    duration: "15분 22초",
-    version: "v2.0.9",
-  },
-  {
-    id: "3",
-    executedAt: "2023-08-28 10:30",
-    executedBy: "박민수",
-    status: "success",
-    successRate: 100.0,
-    totalTests: 15,
-    passedTests: 15,
-    failedTests: 0,
-    duration: "11분 18초",
-    version: "v2.0.8",
-  },
-  {
-    id: "4",
-    executedAt: "2023-08-27 14:22",
-    executedBy: "김철수",
-    status: "success",
-    successRate: 86.7,
-    totalTests: 15,
-    passedTests: 13,
-    failedTests: 2,
-    duration: "13분 45초",
-    version: "v2.0.7",
-  },
-  {
-    id: "5",
-    executedAt: "2023-08-26 11:15",
-    executedBy: "정수진",
-    status: "success",
-    successRate: 93.3,
-    totalTests: 15,
-    passedTests: 14,
-    failedTests: 1,
-    duration: "10분 52초",
-    version: "v2.0.6",
-  },
-]
 
-interface PimsScenario {
-  id: string
-  title: string
-  status: "success" | "failed" | "running" | "ready" | "creating" | "error"
-  category: string
-  lastRun: string
-  duration: string
-  successRate: number
-  totalRuns: number
-  author: string
-  createdAt: string
-  requirementId: string
-  requirementName: string
-  description: string
-  detailContent: string
-  precondition: string
-  testData: string
-  expectedResult: string
-  tags: string[]
-}
-
-const mockScenarioList: PimsScenario[] = [
-  {
-    id: "REQ-BL-00001_TS_001",
-    title: "정상 창업 지원프로세스 처리",
-    status: "success",
-    category: "창업지원",
-    lastRun: "2023-08-29 14:17",
-    duration: "0.2h",
-    successRate: 93.3,
-    totalRuns: 15,
-    author: "김예림",
-    createdAt: "2023-08-01",
-    requirementId: "REQ-BL-00001",
-    requirementName: "창업 지원 프로세스 관리",
-    description:
-      "사용자 창업 지원 신청 접수부터 승인까지의 전체 프로세스를 검증합니다. 신청서 작성, 서류 검토, 심사 과정, 최종 승인 단계를 포함합니다.",
-    detailContent: "창업 지원 신청부터 승인까지의 전체 워크플로우를 관리하며, 각 단계별 검증 로직을 포함합니다.",
-    precondition: "1. 사용자 로그인 완료\n2. 창업 지원 신청 권한 확보\n3. 필수 서류 준비",
-    testData: "신청자명: 홍길동\n사업자번호: 123-45-67890\n지원금액: 5,000,000원",
-    expectedResult: "1. 신청서 정상 제출\n2. 서류 검토 완료\n3. 심사 진행\n4. 승인 처리",
-    tags: ["창업지원", "프로세스"],
-  },
-  {
-    id: "REQ-BL-00002_TS_002",
-    title: "창업 지원 신청 반려 처리",
-    status: "failed",
-    category: "창업지원",
-    lastRun: "2023-08-29 13:45",
-    duration: "0.15h",
-    successRate: 87.5,
-    totalRuns: 8,
-    author: "이수진",
-    createdAt: "2023-08-02",
-    requirementId: "REQ-BL-00002",
-    requirementName: "창업 지원 반려 프로세스",
-    description:
-      "부적절한 창업 지원 신청에 대한 반려 프로세스를 검증합니다. 서류 미비, 자격 요건 불충족 등의 사유로 반려되는 경우를 테스트합니다.",
-    detailContent: "반려 사유 분석, 반려 통지, 재신청 안내 등의 프로세스를 관리합니다.",
-    precondition: "1. 반려 대상 신청서 준비\n2. 반려 사유 설정\n3. 반려 권한 확보",
-    testData: "신청자명: 김철수\n반려사유: 서류미비\n미비서류: 사업계획서",
-    expectedResult: "1. 반려 사유 확인\n2. 반려 처리\n3. 반려 통지 발송\n4. 재신청 안내",
-    tags: ["반려처리", "예외상황"],
-  },
-  {
-    id: "REQ-BL-00003_TS_003",
-    title: "사업자 등록 검증 프로세스",
-    status: "running",
-    category: "사업자등록",
-    lastRun: "2023-08-29 15:20",
-    duration: "0.3h",
-    successRate: 95.2,
-    totalRuns: 21,
-    author: "박민수",
-    createdAt: "2023-08-03",
-    requirementId: "REQ-BL-00003",
-    requirementName: "사업자 등록 검증",
-    description:
-      "사업자 등록번호 유효성 검증 및 중복 확인 프로세스를 테스트합니다. 국세청 연계를 통한 실시간 검증을 포함합니다.",
-    detailContent: "사업자 등록번호의 형식 검증, 체크섬 확인, 국세청 API 연동을 통한 실시간 검증을 수행합니다.",
-    precondition: "1. 국세청 API 연결 확인\n2. 검증 권한 설정\n3. 테스트 사업자번호 준비",
-    testData: "사업자번호: 123-45-67890\n대표자명: 홍길동\n상호명: (주)테스트",
-    expectedResult: "1. 형식 검증 통과\n2. 국세청 조회 성공\n3. 유효성 확인\n4. 중복 검사 완료",
-    tags: ["사업자등록", "검증"],
-  },
-  {
-    id: "REQ-BL-00004_TS_004",
-    title: "지원금 지급 프로세스",
-    status: "ready",
-    category: "지원금",
-    lastRun: "2023-08-28 16:30",
-    duration: "0.25h",
-    successRate: 91.7,
-    totalRuns: 12,
-    author: "최영희",
-    createdAt: "2023-08-04",
-    requirementId: "REQ-BL-00004",
-    requirementName: "지원금 지급 관리",
-    description:
-      "승인된 창업 지원 신청에 대한 지원금 지급 프로세스를 검증합니다. 계좌 확인, 지급 승인, 실제 이체까지의 전 과정을 테스트합니다.",
-    detailContent: "지급 대상 확인, 계좌 검증, 지급 승인, 이체 처리, 지급 완료 통지까지의 전체 프로세스를 관리합니다.",
-    precondition: "1. 승인된 지원 신청 존재\n2. 지급 계좌 정보 확인\n3. 지급 권한 설정",
-    testData: "지급대상: 홍길동\n지급금액: 5,000,000원\n계좌번호: 123-456-789012",
-    expectedResult: "1. 지급 대상 확인\n2. 계좌 검증\n3. 지급 승인\n4. 이체 완료",
-    tags: ["지원금", "지급"],
-  },
-  {
-    id: "REQ-BL-00004_TS_005",
-    title: "지원금 지급 오류 처리",
-    status: "creating",
-    category: "지원금관리",
-    lastRun: "2023-08-26 09:15",
-    duration: "0.18h",
-    successRate: 88.9,
-    totalRuns: 9,
-    author: "정수현",
-    createdAt: "2023-08-05",
-    requirementId: "REQ-BL-00004",
-    requirementName: "지원금 지급 관리",
-    description:
-      "지원금 지급 과정에서 발생할 수 있는 오류 상황을 처리하는 프로세스를 검증합니다. 계좌 오류, 한도 초과 등의 예외 상황을 테스트합니다.",
-    detailContent: "지급 과정에서 발생하는 다양한 오류 상황에 대한 예외 처리 및 복구 절차를 관리합니다.",
-    precondition: "1. 지급 오류 시나리오 설정\n2. 오류 처리 권한 확보\n3. 복구 절차 준비",
-    testData: "오류유형: 계좌정보불일치\n지원금액: 3,000,000원\n오류계좌: 999-999-999999",
-    expectedResult: "1. 오류 감지 및 알림\n2. 오류 사유 분석\n3. 복구 절차 안내\n4. 재처리 또는 반려",
-    tags: ["예외처리", "오류복구"],
-  },
-  {
-    id: "PIMS-001_TS_001",
-    title: "온라인 사업자 등록 신청",
-    status: "error",
-    category: "사업자등록",
-    lastRun: "2023-09-03 10:30",
-    duration: "0.4h",
-    successRate: 89.2,
-    totalRuns: 5,
-    author: "김개발",
-    createdAt: "2023-09-01",
-    requirementId: "PIMS-001",
-    requirementName: "온라인 사업자 등록",
-    description: "온라인을 통한 사업자 등록 신청 프로세스의 전체 워크플로우를 검증합니다.",
-    detailContent: "온라인 사업자 등록 신청부터 승인까지의 디지털 프로세스를 관리합니다.",
-    precondition: "1. 온라인 시스템 접속\n2. 필수 서류 디지털화\n3. 전자서명 준비",
-    testData: "신청자명: 테스트사용자\n사업자번호: 999-99-99999\n업종: 소프트웨어개발",
-    expectedResult: "1. 온라인 신청 완료\n2. 서류 업로드\n3. 전자서명\n4. 접수 확인",
-    tags: ["온라인", "사업자등록"],
-  },
-]
-
-interface Props {
-  scenarioId: string
-}
-
-function PimsScenarioDetailComponent({ scenarioId }: Props) {
-  const [selectedHistory, setSelectedHistory] = useState<string | null>(null)
+function PimsScenarioDetailComponent({ scenarioId }: PimsScenarioDetailProps) {
+  const [selectedHistory, setSelectedHistory] = useState<ExecutionHistory | null>(null)
   const [showScenarioReport, setShowScenarioReport] = useState(false)
   const [showExecutionReport, setShowExecutionReport] = useState(false)
   const [selectedExecutionId, setSelectedExecutionId] = useState<string | null>(null)
@@ -831,7 +616,7 @@ test('${currentScenario.title}', async ({ page }) => {
                         <div
                           key={history.id}
                           className={`p-4 rounded-lg border cursor-pointer transition-colors hover:bg-muted/50 ${
-                            selectedHistory === history.id ? "border-primary bg-primary/5" : ""
+                            selectedHistory?.id === history.id ? "border-primary bg-primary/5" : ""
                           }`}
                           onClick={() => {
                             setSelectedExecutionId(history.id)
@@ -1022,15 +807,15 @@ test('${currentScenario.title}', async ({ page }) => {
                       <div className="space-y-1 text-sm">
                         <div className="flex justify-between">
                           <span className="text-muted-foreground">시나리오 ID:</span>
-                          <span>{mockScenario.id}</span>
+                          <span>{currentScenario.id}</span>
                         </div>
                         <div className="flex justify-between">
                           <span className="text-muted-foreground">시나리오명:</span>
-                          <span>{mockScenario.title}</span>
+                          <span>{currentScenario.title}</span>
                         </div>
                         <div className="flex justify-between">
                           <span className="text-muted-foreground">카테고리:</span>
-                          <span>{mockScenario.category}</span>
+                          <span>{currentScenario.category}</span>
                         </div>
                         <div className="flex justify-between">
                           <span className="text-muted-foreground">생성일:</span>
@@ -1168,11 +953,127 @@ test('${currentScenario.title}', async ({ page }) => {
                 </div>
                 */}
 
+                {/* Execution Log Analysis */}
+                <div>
+                  <h3 className="font-semibold mb-3">실행 로그 분석</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    {/* Error Pattern Analysis */}
+                    <div className="border rounded-lg p-4">
+                      <h4 className="font-medium mb-3 text-destructive">오류 패턴 분석</h4>
+                      <div className="space-y-2">
+                        <div className="flex justify-between text-sm">
+                          <span>네트워크 타임아웃:</span>
+                          <span className="text-destructive">3회 발생</span>
+                        </div>
+                        <div className="flex justify-between text-sm">
+                          <span>UI 요소 누락:</span>
+                          <span className="text-destructive">2회 발생</span>
+                        </div>
+                        <div className="flex justify-between text-sm">
+                          <span>데이터 검증 실패:</span>
+                          <span className="text-destructive">1회 발생</span>
+                        </div>
+                      </div>
+                      <div className="mt-3 p-2 bg-destructive/10 rounded text-xs text-destructive">
+                        ⚠ 네트워크 연결 불안정성이 주요 실패 원인으로 확인됨
+                      </div>
+                    </div>
+
+                    {/* Performance Analysis */}
+                    <div className="border rounded-lg p-4">
+                      <h4 className="font-medium mb-3 text-chart-2">성능 분석</h4>
+                      <div className="space-y-2">
+                        <div className="flex justify-between text-sm">
+                          <span>평균 실행 시간:</span>
+                          <span>12분 34초</span>
+                        </div>
+                        <div className="flex justify-between text-sm">
+                          <span>최고 성능:</span>
+                          <span className="text-chart-1">10분 52초</span>
+                        </div>
+                        <div className="flex justify-between text-sm">
+                          <span>최저 성능:</span>
+                          <span className="text-destructive">15분 22초</span>
+                        </div>
+                      </div>
+                      <div className="mt-3 p-2 bg-chart-2/10 rounded text-xs text-chart-2">
+                        📈 최근 3회 실행에서 성능 개선 추세 확인됨
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Step-by-Step Log Analysis */}
+                  <div className="border rounded-lg p-4">
+                    <h4 className="font-medium mb-3">단계별 로그 분석</h4>
+                    <div className="space-y-3">
+                      <div className="border-l-4 border-chart-1 pl-4">
+                        <div className="font-medium text-sm">1단계: 로그인 페이지 접속</div>
+                        <div className="text-xs text-muted-foreground mt-1">
+                          • 평균 응답시간: 1.2초 • 성공률: 100% • 주요 로그: 정상 연결 확인
+                        </div>
+                      </div>
+                      <div className="border-l-4 border-chart-2 pl-4">
+                        <div className="font-medium text-sm">2단계: 창업 지원 메뉴 선택</div>
+                        <div className="text-xs text-muted-foreground mt-1">
+                          • 평균 응답시간: 2.1초 • 성공률: 95% • 주요 로그: 메뉴 로딩 지연 1회 발생
+                        </div>
+                      </div>
+                      <div className="border-l-4 border-destructive pl-4">
+                        <div className="font-medium text-sm">3단계: 신청서 작성</div>
+                        <div className="text-xs text-muted-foreground mt-1">
+                          • 평균 응답시간: 5.8초 • 성공률: 87% • 주요 로그: 사업자번호 형식 검증 경고
+                        </div>
+                      </div>
+                      <div className="border-l-4 border-chart-1 pl-4">
+                        <div className="font-medium text-sm">4단계: 신청서 제출</div>
+                        <div className="text-xs text-muted-foreground mt-1">
+                          • 평균 응답시간: 3.3초 • 성공률: 93% • 주요 로그: 정상 제출 확인
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Console Log Trends */}
+                <div>
+                  <h3 className="font-semibold mb-3">콘솔 로그 트렌드</h3>
+                  <div className="border rounded-lg p-4">
+                    <div className="grid grid-cols-3 gap-4 mb-4">
+                      <div className="text-center">
+                        <div className="text-2xl font-bold text-chart-1">146</div>
+                        <div className="text-xs text-muted-foreground">INFO 로그</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-2xl font-bold text-chart-2">23</div>
+                        <div className="text-xs text-muted-foreground">WARN 로그</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-2xl font-bold text-destructive">8</div>
+                        <div className="text-xs text-muted-foreground">ERROR 로그</div>
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <h5 className="font-medium text-sm">주요 경고 메시지</h5>
+                      <div className="bg-chart-2/10 p-3 rounded text-xs">
+                        <div className="font-mono">WARN: 사업자등록번호 형식 확인 필요 (3회 발생)</div>
+                        <div className="font-mono">WARN: 응답 시간 지연 감지 (2회 발생)</div>
+                      </div>
+                      
+                      <h5 className="font-medium text-sm mt-4">주요 오류 메시지</h5>
+                      <div className="bg-destructive/10 p-3 rounded text-xs">
+                        <div className="font-mono">ERROR: Network timeout: 서버 응답 없음 (2회 발생)</div>
+                        <div className="font-mono">ERROR: Test execution failed: Connection lost (1회 발생)</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
                 {/* Test Steps */}
                 <div>
                   <h3 className="font-semibold mb-3">테스트 단계</h3>
                   <div className="space-y-3">
-                    {mockScenario.steps.map((step, index) => (
+                    {(currentScenario.steps || []).map((step, index) => (
                       <div key={index} className="border rounded-lg p-4">
                         <div className="flex items-start gap-3">
                           <div className="w-6 h-6 rounded-full bg-primary/10 text-primary text-xs font-medium flex items-center justify-center mt-0.5">
@@ -1469,17 +1370,61 @@ test('${currentScenario.title}', async ({ page }) => {
                   </Card>
                 </div>
 
-                {/* Summary */}
+                {/* Summary and Recommendations */}
                 <div className="border-t pt-4">
-                  <h3 className="font-semibold mb-3">요약 및 권장사항</h3>
-                  <div className="space-y-2 text-sm">
-                    <p>• 전체 16개 시나리오 중 14개 성공, 2개 실패로 87.5%의 성공률을 기록했습니다.</p>
-                    <p>• 실패한 시나리오는 모두 UI 요소 선택자 변경으로 인한 것으로 확인됩니다.</p>
-                    <p>• 시각적 회귀 테스트에서 1개 페이지에서 중대한 레이아웃 변경이 감지되었습니다.</p>
-                    <p>• 대시보드 페이지의 레이아웃 변경은 의도된 변경인지 확인이 필요합니다.</p>
-                    <p>• 페이지 구조 변경에 대응하기 위해 더 안정적인 선택자 사용을 권장합니다.</p>
-                    <p>• 다음 회귀 테스트 실행 전에 실패한 테스트 케이스의 선택자를 업데이트해야 합니다.</p>
-                    <p>• 시각적 변경사항이 의도된 것이라면 기준 스크린샷을 업데이트하시기 바랍니다.</p>
+                  <h3 className="font-semibold mb-3">실행 로그 기반 요약 및 권장사항</h3>
+                  
+                  {/* Key Findings */}
+                  <div className="bg-muted/20 p-4 rounded-lg mb-4">
+                    <h4 className="font-medium mb-2 text-primary">🔍 주요 발견사항</h4>
+                    <div className="space-y-2 text-sm">
+                      <p>• <strong>성공률 93.3%</strong>: 최근 5회 실행 중 평균 성공률로 양호한 수준</p>
+                      <p>• <strong>네트워크 이슈</strong>: 전체 실패의 60%가 네트워크 타임아웃으로 발생</p>
+                      <p>• <strong>성능 개선</strong>: 최근 3회 실행에서 평균 실행시간이 8% 단축됨</p>
+                      <p>• <strong>데이터 검증</strong>: 사업자번호 형식 검증에서 3회 경고 발생</p>
+                    </div>
+                  </div>
+
+                  {/* Critical Issues */}
+                  <div className="bg-destructive/10 border border-destructive/20 p-4 rounded-lg mb-4">
+                    <h4 className="font-medium mb-2 text-destructive">🚨 즉시 조치 필요</h4>
+                    <div className="space-y-2 text-sm">
+                      <p>• <strong>네트워크 안정성 개선</strong>: 서버 응답 시간 최적화 및 재시도 로직 추가</p>
+                      <p>• <strong>UI 선택자 업데이트</strong>: 변경된 DOM 구조에 맞는 안정적인 선택자 적용</p>
+                      <p>• <strong>데이터 검증 강화</strong>: 사업자번호 입력 시 실시간 형식 검증 로직 개선</p>
+                    </div>
+                  </div>
+
+                  {/* Performance Optimization */}
+                  <div className="bg-chart-2/10 border border-chart-2/20 p-4 rounded-lg mb-4">
+                    <h4 className="font-medium mb-2 text-chart-2">⚡ 성능 최적화 권장사항</h4>
+                    <div className="space-y-2 text-sm">
+                      <p>• <strong>응답시간 개선</strong>: 3단계(신청서 작성)의 평균 응답시간 5.8초 → 3초 목표</p>
+                      <p>• <strong>로딩 최적화</strong>: 메뉴 로딩 지연 문제 해결을 위한 캐싱 전략 적용</p>
+                      <p>• <strong>병렬 처리</strong>: 독립적인 검증 로직을 병렬로 실행하여 전체 시간 단축</p>
+                    </div>
+                  </div>
+
+                  {/* Long-term Improvements */}
+                  <div className="bg-chart-1/10 border border-chart-1/20 p-4 rounded-lg mb-4">
+                    <h4 className="font-medium mb-2 text-chart-1">📈 장기 개선 계획</h4>
+                    <div className="space-y-2 text-sm">
+                      <p>• <strong>모니터링 강화</strong>: 실시간 로그 분석 대시보드 구축</p>
+                      <p>• <strong>자동 복구</strong>: 일시적 오류 발생 시 자동 재시도 메커니즘 도입</p>
+                      <p>• <strong>예측 분석</strong>: 로그 패턴 분석을 통한 장애 예측 시스템 구축</p>
+                      <p>• <strong>성능 벤치마크</strong>: 각 단계별 목표 성능 지표 설정 및 모니터링</p>
+                    </div>
+                  </div>
+
+                  {/* Next Steps */}
+                  <div className="bg-primary/10 border border-primary/20 p-4 rounded-lg">
+                    <h4 className="font-medium mb-2 text-primary">🎯 다음 단계</h4>
+                    <div className="space-y-1 text-sm">
+                      <p>1. <strong>우선순위 1</strong>: 네트워크 타임아웃 이슈 해결 (1주 내)</p>
+                      <p>2. <strong>우선순위 2</strong>: UI 선택자 안정성 개선 (2주 내)</p>
+                      <p>3. <strong>우선순위 3</strong>: 데이터 검증 로직 강화 (3주 내)</p>
+                      <p>4. <strong>장기 목표</strong>: 전체 성공률 98% 이상, 평균 실행시간 10분 이하 달성</p>
+                    </div>
                   </div>
                 </div>
               </div>
